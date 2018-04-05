@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Cinemachine;
 
 public class Slide : MonoBehaviour
 {
@@ -14,6 +15,14 @@ public class Slide : MonoBehaviour
     public void Show()
     {
         VCam.SetActive(true);
+        StartCoroutine(show());
+    }
+
+    private IEnumerator show()
+    {
+        yield return null;
+        CinemachineBrain brain = Camera.main.GetComponent<CinemachineBrain>();
+        yield return new WaitWhile(() => brain.IsBlending);
         OnShow.Invoke();
     }
 
